@@ -1,74 +1,1356 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hello World</title>
     <style>
-        /* 这里放置所有CSS样式 */
-    </style>
-<meta name="generator" content="Hexo 7.3.0"></head>
-<body>
-    <div class="container">
-        <!-- 侧边栏 -->
-        <aside class="sidebar">
-            <h1 class="site-title">蘑菇种植园</h1>
-            <p class="site-description"></p>
-            
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="/" class="nav-link">首页</a></li>
-                
-            </ul>
-            
-            <div class="sidebar-footer">
-                <p>© 2023 蘑菇种植园</p>
-                <p>由Hexo驱动</p>
-            </div>
-        </aside>
+      :root {
+        --primary-color: #b7404a;
+        --text-color: #ffffff;
+        --title-color: #010400;
+        --bg-color: #9fa39e;
+        --hover-color: #fff;
+        --head-color: #993333;
+        --head-other-color: #7a8e6e;
+        --card-color: #eeedd4;
+        --post-color: #e8e7b3;
+        --submenu-bg: #eeedd4;
+        --head-text-color: #655858;
+        --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+         --grid-size: 35px;
+          
+      }
 
-        <!-- 主内容区 -->
-        <main class="main-content">
-            
-        </main>
-    </div>
-    
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text-color);
+        background-color: var(--bg-color);
+        transition: var(--transition);
+        padding-top: 70px;
+        background-image: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0.3) 1px,
+            transparent 1px
+          ),
+          /* 创建水平线条 */
+            linear-gradient(
+              to bottom,
+              rgba(255, 255, 255, 0.3) 1px,
+              transparent 1px
+            );
+        /* 设置网格大小 */
+        background-size: 20px 20px;
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        min-height: 100vh;
+      }
+
+      /* 侧边栏样式 */
+      .sidebar {
+        color: rgb(161, 161, 161);
+        margin: 2rem auto;
+        width: 280px;
+        overflow-y: auto;
+      }
+      .site-img {
+        border-radius: 25%;
+        border: 1px solid rgba(130, 1, 1, 0.5);
+        overflow: hidden;
+        margin: 0 auto 1rem;
+      }
+      .site {
+        background-color: var(--card-color);
+        width: 100%;
+        border-radius: 5px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .site-intro {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .site-name {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+      .site-description {
+        text-align: center;
+        font-size: 1rem;
+        color: #adadad;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+      .site-logo {
+        border-radius: 50%;
+        overflow: hidden;
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 1rem;
+      }
+
+      .nav-menu {
+        list-style: none;
+      }
+
+      .nav-item {
+        margin-bottom: 0.8rem;
+      }
+
+      .nav-link {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        display: block;
+        padding: 0.5rem 0;
+        transition: all 0.3s ease;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .nav-link:hover {
+        padding-left: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+
+      .sidebar-footer {
+        margin-top: 2rem;
+        font-size: 0.9rem;
+        opacity: 0.7;
+      }
+
+      /* 主内容区样式 */
+      .main-content {
+        padding: 2rem;
+        grid-column: 2;
+      }
+
+      .page-title {
+        font-size: 2.2rem;
+        margin-bottom: 2rem;
+        color: var(--title-color);
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #eee;
+      }
+
+      .post-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .post-card {
+        background-color: var(--post-color);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      .post-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+      }
+
+      .post-content {
+        padding: 1.5rem;
+      }
+
+      .post-title {
+        font-size: 1.3rem;
+        margin-bottom: 0.8rem;
+        color: #2c3e50;
+      }
+
+      .post-excerpt {
+        color: #666;
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+      }
+
+      .post-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        color: #888;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 2rem;
+        grid-column: 1 / -1;
+        color: #777;
+      }
+
+      .loader {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 900px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: relative;
+          width: 100%;
+          height: auto;
+        }
+
+        .main-content {
+          grid-column: 1;
+        }
+
+        .post-list {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  <meta name="generator" content="Hexo 7.3.0"></head>
+  <body>
+    <div><!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grid棋盘格导航栏</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      [data-theme="dark"] {
+        --primary-color: #6c8dfa;
+        --text-color: #e0e0e0;
+        --head-color: #1a1a2e;
+        --head-other-color: #0f0c37;
+        --hover-color: #5b7ce9;
+        --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        --card-color: rgba(26, 26, 46, 0.9);
+        --submenu-bg: #1a1a2e;
+        --head-text-color: #e0e0e0;
+        --grid-color: rgba(108, 141, 250, 0.1);
+      }
+
+      [data-theme="dark"] body {
+        background: linear-gradient(120deg, #1a1a2e 0%, #0f0c37 100%);
+      }
+
+      /* 使用Grid实现棋盘格背景 */
+      .navbar {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: var(--head-color);
+        box-shadow: var(--shadow);
+        z-index: 1000;
+        transition: var(--transition);
+        
+      }
+
+      .grid-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        /* grid-template-columns: repeat(auto-fit, minmax(var(--grid-size), 1fr)); */
+        grid-auto-rows: var(--grid-size);
+        z-index: -1;
+        transition: opacity 0.5s ease;
+        overflow: hidden;
+      }
+
+      .grid-background .grid-item:nth-child(odd) {
+        background-color: var(--head-other-color);
+      }
+
+      .grid-background .grid-item:nth-child(even) {
+        background-color: transparent;
+        transform: translateX(calc(var(--grid-size) / 2));
+      }
+
+      .scrolled {
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        height: 35px;
+      }
+
+      .scrolled .grid-background {
+        opacity: 0.2;
+      }
+
+      .scrolled .nav-container {
+        height: 35px;
+      }
+
+      .scrolled .header-logo a {
+        font-size: 1.5rem;
+        transform: translateY(-5px);
+      }
+
+      .scrolled .nav-menu {
+        height: 100%;
+        
+        margin-top: 0;
+        translate: 0;
+        padding: 0;
+        background-color: transparent;
+        border-radius: 0;
+      }
+      .scrolled .nav-menu .head-link {
+        color: #fff;
+        line-height: 100%;
+      }
+      .scrolled .nav-actions {
+        transform: translateY(-5px);
+      }
+
+      .scrolled .submenu{
+        background-color: var(--head-color);
+      }
+
+      .scrolled .submenu .submenu-link{
+        color: #fff;
+      }
+      .nav-container {
+        width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+        transition: var(--transition);
+        position: relative;
+      }
+      .header-logo {
+        width: 200px;
+        background-color: var(--head-other-color);
+      }
+      .header-logo a {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--text-color);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        transition: var(--transition);
+      }
+
+      .header-logo i {
+        margin-right: 10px;
+
+        color: var(--primary-color);
+      }
+
+      .nav-menu {
+        display: flex;
+        list-style: none;
+        border-radius: 25px;
+        background-color: var(--card-color);
+        translate: 150%;
+        transition: var(--transition);
+        backdrop-filter: blur(5px);
+      }
+
+      .nav-item {
+        margin: 0 15px;
+        position: relative;
+      }
+
+      .head-link {
+        color: var(--head-text-color);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 10px 0;
+        position: relative;
+        transition: var(--transition);
+        display: block;
+      }
+
+      .head-link:hover {
+        color: var(--primary-color);
+      }
+
+      .head-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--primary-color);
+        transition: var(--transition);
+      }
+
+      .head-link:hover::after {
+        width: 100%;
+      }
+
+      /* 二级菜单样式 */
+      .submenu {
+        position: absolute;
+        top: 120%;
+        left: 0;
+        width: 140px;
+        background-color: var(--submenu-bg);
+        border-radius: 6px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 10px 0;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: var(--transition);
+        z-index: 9999;
+        box-shadow: var(--shadow);
+      }
+
+      .nav-item:hover .submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .submenu-item {
+        list-style: none;
+      }
+
+      .submenu-link {
+        display: block;
+        padding: 10px 20px;
+        color: var(--head-text-color);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .submenu-link:hover {
+        background-color: rgba(74, 108, 247, 0.1);
+        color: var(--primary-color);
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        transition: var(--transition);
+      }
+
+      .theme-toggle {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+        margin-right: 20px;
+        color: var(--text-color);
+        transition: var(--transition);
+        padding: 5px;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .theme-toggle:hover {
+        color: var(--primary-color);
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 5px;
+      }
+
+      .hamburger span {
+        width: 25px;
+        height: 3px;
+        background-color: var(--text-color);
+        margin: 3px 0;
+        transition: var(--transition);
+        border-radius: 3px;
+      }
+
+      /* 内容区域 */
+      .content {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 20px;
+        background: var(--card-color);
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+      }
+
+      .content h1 {
+        color: var(--primary-color);
+        margin-bottom: 20px;
+      }
+
+      .content p {
+        line-height: 1.6;
+        margin-bottom: 15px;
+        color: var(--text-color);
+      }
+
+      @media screen and (max-width: 768px) {
+        .header-logo {
+            display: none;
+        }
+        .nav-menu {
+          position: fixed;
+          top: 70px;
+          left: -100%;
+          width: 100%;
+          height: calc(100vh - 70px);
+          background-color: var(--head-other-color);
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          padding-top: 50px;
+          transition: var(--transition);
+          translate: 0;
+          border-radius: 0;
+        }
+
+        .nav-menu.active {
+          left: 0;
+        }
+
+        .nav-item {
+          margin: 15px 0;
+        }
+
+        .hamburger {
+          display: flex;
+        }
+
+        .hamburger.active span:nth-child(1) {
+          transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+          opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+          transform: rotate(-45deg) translate(5px, -5px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar" id="navbar">
+        <div class="header-logo">
+          <a href="#">蘑菇种植园</a>
+        </div>
+
+        <!-- 使用Grid实现棋盘格背景 -->
+        <div class="grid-background" id="grid-background"></div>
+
+        <div class="nav-container">
+          <ul class="nav-menu">
+            <li class="nav-item">
+              <a href="#" class="head-link">首页</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="head-link">思考</a>
+              <ul class="submenu">
+                <li class="submenu-item">
+                  <a href="#" class="submenu-link">技术</a>
+                </li>
+                <li class="submenu-item">
+                  <a href="#" class="submenu-link">语言</a>
+                </li>
+                <li class="submenu-item">
+                  <a href="#" class="submenu-link">其他技能</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="head-link">漫步</a>
+              <ul class="submenu">
+                <li class="submenu-item">
+                  <a href="#" class="submenu-link">书</a>
+                </li>
+                <li class="submenu-item">
+                  <a href="#" class="submenu-link">影</a>
+                </li>
+                <li class="submenu-item">
+                  <a href="#" class="submenu-link">其他</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="head-link">创作</a>
+              <ul class="submenu">
+                <li class="submenu-item">
+                  <a href="#" class="submenu-link">原创</a>
+                </li>
+                <li class="submenu-item">
+                  <a href="#" class="submenu-link">同人</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="head-link">提问箱</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="head-link">归档</a>
+            </li>
+          </ul>
+
+          <div class="nav-actions">
+            <button class="theme-toggle" id="theme-toggle">🌙</button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
     <script>
-        // 响应式菜单切换（移动设备）
-        document.addEventListener('DOMContentLoaded', function() {
-            const menuToggle = document.createElement('button');
-            menuToggle.innerHTML = '☰';
-            menuToggle.style.position = 'fixed';
-            menuToggle.style.top = '1rem';
-            menuToggle.style.right = '1rem';
-            menuToggle.style.zIndex = '1000';
-            menuToggle.style.background = '#3a7bd5';
-            menuToggle.style.color = 'white';
-            menuToggle.style.border = 'none';
-            menuToggle.style.borderRadius = '4px';
-            menuToggle.style.padding = '0.5rem';
-            menuToggle.style.fontSize = '1.5rem';
-            menuToggle.style.cursor = 'pointer';
-            menuToggle.style.display = 'none';
+      // 动态创建网格元素
+      function createGrid() {
+        const grid = document.getElementById("grid-background");
+        const navbarWidth = document.getElementById("navbar").offsetWidth;
+        const navbarHeight = document.getElementById("navbar").offsetHeight;
+
+        // 计算需要的网格数量
+        const gridSize = parseInt(
+          getComputedStyle(document.documentElement).getPropertyValue(
+            "--grid-size"
+          )
+        );
+        const cols = Math.ceil(navbarWidth / gridSize) + 2;
+        const rows = Math.ceil(navbarHeight / gridSize) + 2;
+
+        // 清空现有网格
+        grid.innerHTML = "";
+        // 设置网格模板
+        grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+        // 创建网格项
+        for (let i = 0; i < cols * rows; i++) {
+          const gridItem = document.createElement("div");
+          gridItem.className = "grid-item";
+          grid.appendChild(gridItem);
+        }
+      }
+
+      // 初始化网格
+      window.addEventListener("load", createGrid);
+      window.addEventListener("resize", createGrid);
+
+      // 获取头部元素
+      const header = document.getElementById("navbar");
+
+      // 添加滚动防抖
+      let ticking = false;
+
+      // 监听滚动事件
+      window.addEventListener("scroll", function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () {
+            // 检查滚动位置
+            if (window.scrollY > 10) {
+              header.classList.add("scrolled");
+            } else {
+              header.classList.remove("scrolled");
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+
+      // 移动端菜单切换
+      const hamburger = document.getElementById("hamburger");
+      const navMenu = document.querySelector(".nav-menu");
+
+      hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navMenu.classList.toggle("active");
+      });
+
+      // 深色/浅色模式切换
+      const themeToggle = document.getElementById("theme-toggle");
+      const prefersDarkScheme = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      );
+
+      // 检查本地存储或系统偏好
+      const currentTheme =
+        localStorage.getItem("theme") ||
+        (prefersDarkScheme.matches ? "dark" : "light");
+
+      if (currentTheme === "dark") {
+        document.body.setAttribute("data-theme", "dark");
+        themeToggle.textContent = "☀️";
+      } else {
+        document.body.removeAttribute("data-theme");
+        themeToggle.textContent = "🌙";
+      }
+
+      themeToggle.addEventListener("click", () => {
+        let theme = "light";
+        if (!document.body.hasAttribute("data-theme")) {
+          document.body.setAttribute("data-theme", "dark");
+          themeToggle.textContent = "☀️";
+          theme = "dark";
+        } else {
+          document.body.removeAttribute("data-theme");
+          themeToggle.textContent = "🌙";
+          theme = "light";
+        }
+        localStorage.setItem("theme", theme);
+      });
+
+      // 点击菜单项后关闭移动菜单
+      document.querySelectorAll(".head-link").forEach((link) => {
+        link.addEventListener("click", () => {
+          hamburger.classList.remove("active");
+          navMenu.classList.remove("active");
+        });
+      });
+    </script>
+  </body>
+</html>
+</div>
+    <div class="container">
+      <!-- 侧边栏 -->
+      <aside class="sidebar"><!-- 个人介绍模块 -->
+<div class="site-intro site">
+<img class="site-img" src="/img/logo.jpg" alt="My Avatar" width="100" height="100">
+
+<p class="site-name">柳箐</p>
+<p class="site-description">于是我们不再追问</p>
+
+<div>
+    <span></span>
+</div>
+</div>
+
+<!-- 搜索 -->
+<div class="site">
+  <input type="text" placeholder="搜索..." />
+</div>
+
+<div>
+<!-- 标签 -->
+<ul class="site">
+  <li class="nav-item"><a href="/" class="nav-link">首页</a></li>
+  
+</ul>
+</div>
+
+<div>
+<!-- 最近更新 -->
+<ul class="site">
+  <li class="nav-item"><a href="/" class="nav-link">首页</a></li>
+  
+</ul>
+</div></aside>
+
+      <!-- 主内容区 -->
+      <main class="main-content"><!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <title>Hello World | 蘑菇种植园</title>
+    
+    <!-- Open Graph 元数据 -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Hello World">
+    <meta property="og:url" content="http://example.com/2025/08/22/hello-world/">
+    <meta property="og:site_name" content="蘑菇种植园">
+    
+    
+    
+    <!-- 文章结构化数据 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Hello World",
+        "datePublished": "2025-08-22T13:20:17.454Z",
+        "dateModified": "2025-08-22T13:20:17.454Z",
+        "author": {
+            "@type": "Person",
+            "name": "SU"
+        },
+        "description": "",
+        "publisher": {
+            "@type": "Organization",
+            "name": "蘑菇种植园",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "http://example.com/images/logo.png"
+            }
+        }
+    }
+    </script>
+    
+    <style>
+        .post-container {
+            background-color: var(--post-color);
+            max-width: 800px;
+            margin: 0 3rem;
+            padding: 20px;
+        }
+        .post-header {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        .post-title {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .post-meta {
+            color: #666;
+            font-size: 0.9rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        .post-meta-item {
+            display: flex;
+            align-items: center;
+        }
+        .post-meta-item i {
+            margin-right: 5px;
+        }
+        .post-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            background-color: var(--card-color);
+            color: #444;
+        }
+        .post-content h1,
+        .post-content h2,
+        .post-content h3,
+        .post-content h4,
+        .post-content h5,
+        .post-content h6 {
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            color: #333;
+        }
+        .post-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .post-content blockquote {
+            border-left: 4px solid #4a69bd';
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #555;
+            background-color: #f9f9f9;
+            padding: 15px 20px;
+            border-radius: 0 5px 5px 0;
+        }
+        .post-content code {
+            background-color: #f5f7fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Fira Code', Monaco, Consolas, monospace;
+        }
+        .post-content pre {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        .post-content pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+        .post-tags {
+            margin: 30px 0;
+        }
+        .tag {
+            display: inline-block;
+            background-color: #f1f5f9;
+            color: #64748b;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .tag:hover {
+            background-color: #4a69bd;
+            color: white;
+        }
+        .post-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            background-color: var(--card-color);
+        }
+        .nav-link {
+            max-width: 45%;
+            padding: 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s;
+            border: 1px solid #eee;
+        }
+        .nav-link:hover {
+            border-color: '#4a69bd';
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .nav-prev, .nav-next {
+            position: relative;
+        }
+        .nav-prev::before {
+            content: "←";
+            margin-right: 5px;
+        }
+        .nav-next::after {
+            content: "→";
+            margin-left: 5px;
+        }
+        .reward {
+            text-align: center;
+            margin: 40px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        .reward-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        .reward-btn {
+            padding: 10px 20px;
+            background-color: #4a69bd;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .reward-btn:hover {
+            background-color: #e74c3c;
+        }
+        .reward-qr {
+            display: none;
+            margin-top: 20px;
+        }
+        .reward-qr.active {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .comments {
+            margin-top: 50px;
+        }
+        .related-posts {
+            margin: 40px 0;
+        }
+        .related-posts h3 {
+            margin-bottom: 20px;
+        }
+        .related-post-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .related-post-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .related-post-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .related-post-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .related-post-date {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        /* 暗色模式支持 */
+        @media (prefers-color-scheme: dark) {
+            .post-title, 
+            .post-content h1, 
+            .post-content h2, 
+            .post-content h3, 
+            .post-content h4, 
+            .post-content h5, 
+            .post-content h6 {
+                color: #e2e8f0;
+            }
+            .post-content {
+                color: #cbd5e1;
+            }
+            .post-header {
+                border-color: #334155;
+            }
+            .post-content blockquote {
+                background-color: #1e293b;
+                color: #94a3b8;
+            }
+            .post-content code {
+                background-color: #334155;
+            }
+            .tag {
+                background-color: #334155;
+                color: #94a3b8;
+            }
+            .post-navigation {
+                border-color: #334155;
+            }
+            .nav-link {
+                border-color: #334155;
+                color: #cbd5e1;
+                background-color: #1e293b;
+            }
+            .reward {
+                background-color: #1e293b;
+            }
+            .related-post-item {
+                background-color: #1e293b;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .post-title {
+                font-size: 1.8rem;
+            }
+            .post-meta {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .post-navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-link {
+                max-width: 100%;
+            }
+            .reward-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .reward-qr.active {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+   
+    
+    <main class="post-container">
+        <article class="post">
+            <header class="post-header">
+                <h1 class="post-title">Hello World</h1>
+                
+                <div class="post-meta">
+                    
+                        <div class="post-meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>SU</span>
+                        </div>
+                    
+                    
+                    <div class="post-meta-item">
+                        <i class="fas fa-calendar"></i>
+                        <time datetime="2025-08-22T13:20:17.454Z">
+                            2025-08-22
+                        </time>
+                    </div>
+                    
+                    
+                        <div class="post-meta-item">
+                            <i class="fas fa-pencil-alt"></i>
+                            <time datetime="2025-08-22T13:20:17.454Z">
+                                更新于 2025-08-22
+                            </time>
+                        </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </div>
+            </header>
             
-            menuToggle.addEventListener('click', function() {
-                document.querySelector('.sidebar').classList.toggle('active');
-            });
+            <div class="post-content">
+                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+            </div>
             
-            document.body.appendChild(menuToggle);
             
-            function checkWidth() {
-                if (window.innerWidth <= 900) {
-                    menuToggle.style.display = 'block';
-                    document.querySelector('.sidebar').classList.remove('active');
-                } else {
-                    menuToggle.style.display = 'none';
-                    document.querySelector('.sidebar').classList.add('active');
-                }
+            
+            <!-- 版权声明 -->
+            
+            
+            <!-- 分享按钮 -->
+            
+            
+           
+            <!-- 文章导航 -->
+            <div class="post-navigation">
+                
+                    <a href="/2025/08/23/hexo%E7%9A%84%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" class="nav-link nav-prev">
+                        <strong>上一篇</strong>
+                        <span>hexo的基础使用</span>
+                    </a>
+                
+                
+                
+            </div>
+            
+            <!-- 相关文章 -->
+            
+        </article>
+        
+        <!-- 评论系统 -->
+        <div class="comments">
+            
+        </div>
+    </main>
+    
+  
+    
+    <!-- 文章目录导航 -->
+    
+        <div class="toc-container">
+            <div class="toc-header">
+                <h4>目录</h4>
+            </div>
+            <div class="toc-body">
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+            </div>
+        </div>
+        
+        <style>
+            .toc-container {
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                max-width: 250px;
+                max-height: 70vh;
+                overflow-y: auto;
+                background: var(--card-color);
+                border-radius: 5px;
+                padding: 15px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                z-index: 1000;
+                display: none;
+            }
+            .toc-container.active {
+                display: block;
+            }
+            .toc-header {
+                margin-bottom: 10px;
+                padding-bottom: 5px;
+                border-bottom: 1px solid #eee;
+            }
+            /* .toc-body ul {
+                list-style: none;
+                padding-left: 15px;
+                margin: 0;
+            }
+            .toc-body li {
+                margin: 5px 0;
+            } */
+            .toc-body a {
+                color: #666;
+                text-decoration: none;
+                font-size: 0.9rem;
+                transition: color 0.3s;
+            }
+            .toc-body a:hover {
+                color: #4a69bd;
             }
             
-            window.addEventListener('resize', checkWidth);
-            checkWidth();
-        });
-    </script>
+            @media (max-width: 1200px) {
+                .toc-container {
+                    display: none !important;
+                }
+            }
+        </style>
+        
+        <script>
+            // 自动生成目录并显示
+            document.addEventListener('DOMContentLoaded', function() {
+                const toc = document.querySelector('.toc-container');
+                if (toc && document.querySelector('.toc-body').innerHTML.trim() !== '') {
+                    toc.classList.add('active');
+                    
+                    // 为目录项添加点击事件
+                    document.querySelectorAll('.toc-body a').forEach(link => {
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const targetId = this.getAttribute('href').substring(1);
+                            const targetElement = document.getElementById(targetId);
+                            if (targetElement) {
+                                window.scrollTo({
+                                    top: targetElement.offsetTop - 80,
+                                    behavior: 'smooth'
+                                });
+                            }
+                        });
+                    });
+                    
+                    // 高亮当前阅读的标题
+                    const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                    const observer = new IntersectionObserver(entries => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                document.querySelectorAll('.toc-body a').forEach(link => {
+                                    link.classList.remove('active');
+                                });
+                                const id = entry.target.getAttribute('id');
+                                if (id) {
+                                    const activeLink = document.querySelector(`.toc-body a[href="#${id}"]`);
+                                    if (activeLink) {
+                                        activeLink.classList.add('active');
+                                        activeLink.style.color = '#4a69bd';
+                                    }
+                                }
+                            }
+                        });
+                    }, { rootMargin: '-100px 0px -50% 0px' });
+                    
+                    headings.forEach(heading => {
+                        if (heading.getAttribute('id')) {
+                            observer.observe(heading);
+                        }
+                    });
+                }
+            });
+        </script>
+    
 </body>
+</html></main>
+    </div>
+
+    <script>
+      // 响应式菜单切换（移动设备）
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuToggle = document.createElement("button");
+        menuToggle.innerHTML = "☰";
+        menuToggle.style.position = "fixed";
+        menuToggle.style.top = "1rem";
+        menuToggle.style.right = "1rem";
+        menuToggle.style.zIndex = "1000";
+        menuToggle.style.background = "#3a7bd5";
+        menuToggle.style.color = "white";
+        menuToggle.style.border = "none";
+        menuToggle.style.borderRadius = "4px";
+        menuToggle.style.padding = "0.5rem";
+        menuToggle.style.fontSize = "1.5rem";
+        menuToggle.style.cursor = "pointer";
+        menuToggle.style.display = "none";
+
+        menuToggle.addEventListener("click", function () {
+          document.querySelector(".sidebar").classList.toggle("active");
+        });
+
+        document.body.appendChild(menuToggle);
+
+        function checkWidth() {
+          if (window.innerWidth <= 900) {
+            menuToggle.style.display = "block";
+            document.querySelector(".sidebar").classList.remove("active");
+          } else {
+            menuToggle.style.display = "none";
+            document.querySelector(".sidebar").classList.add("active");
+          }
+        }
+
+        window.addEventListener("resize", checkWidth);
+        checkWidth();
+      });
+    </script>
+  </body>
 </html>
