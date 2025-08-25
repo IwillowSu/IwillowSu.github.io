@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>蘑菇种植园</title>
+    <style>
+      :root {
+        --primary-color: #b7404a;
+        --text-color: #ffffff;
+        --title-color: #010400;
+        --bg-color: #9fa39e;
+        --hover-color: #fff;
+        --head-color: #993333;
+        --head-other-color: #7a8e6e;
+        --card-color: #eeedd4;
+        --post-color: #e8e7b3;
+        --submenu-bg: #eeedd4;
+        --head-text-color: #655858;
+        --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+         --grid-size: 35px;
+          
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text-color);
+        background-color: var(--bg-color);
+        transition: var(--transition);
+        padding-top: 70px;
+        background-image: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0.3) 1px,
+            transparent 1px
+          ),
+          /* 创建水平线条 */
+            linear-gradient(
+              to bottom,
+              rgba(255, 255, 255, 0.3) 1px,
+              transparent 1px
+            );
+        /* 设置网格大小 */
+        background-size: 20px 20px;
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        min-height: 100vh;
+      }
+
+      /* 侧边栏样式 */
+      .sidebar {
+        color: rgb(161, 161, 161);
+        margin: 2rem auto;
+        width: 280px;
+        overflow-y: auto;
+      }
+      .site-img {
+        border-radius: 25%;
+        border: 1px solid rgba(130, 1, 1, 0.5);
+        overflow: hidden;
+        margin: 0 auto 1rem;
+      }
+      .site {
+        background-color: var(--card-color);
+        width: 100%;
+        border-radius: 5px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .site-intro {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .site-name {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+      .site-description {
+        text-align: center;
+        font-size: 1rem;
+        color: #adadad;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+      .site-logo {
+        border-radius: 50%;
+        overflow: hidden;
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 1rem;
+      }
+
+      .nav-menu {
+        list-style: none;
+      }
+
+      .nav-item {
+        margin-bottom: 0.8rem;
+      }
+
+      .nav-link {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        display: block;
+        padding: 0.5rem 0;
+        transition: all 0.3s ease;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .nav-link:hover {
+        padding-left: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+
+      .sidebar-footer {
+        margin-top: 2rem;
+        font-size: 0.9rem;
+        opacity: 0.7;
+      }
+
+      /* 主内容区样式 */
+      .main-content {
+        padding: 2rem;
+        grid-column: 2;
+      }
+
+      .page-title {
+        font-size: 2.2rem;
+        margin-bottom: 2rem;
+        color: var(--title-color);
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #eee;
+      }
+
+      .post-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .post-card {
+        background-color: var(--post-color);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      .post-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+      }
+
+      .post-content {
+        padding: 1.5rem;
+      }
+
+      .post-title {
+        font-size: 1.3rem;
+        margin-bottom: 0.8rem;
+        color: #2c3e50;
+      }
+
+      .post-excerpt {
+        color: #666;
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+      }
+
+      .post-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        color: #888;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 2rem;
+        grid-column: 1 / -1;
+        color: #777;
+      }
+
+      .loader {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 900px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: relative;
+          width: 100%;
+          height: auto;
+        }
+
+        .main-content {
+          grid-column: 1;
+        }
+
+        .post-list {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  <meta name="generator" content="Hexo 7.3.0"></head>
+  <body>
+    <div><!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grid棋盘格导航栏</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      [data-theme="dark"] {
+        --primary-color: #6c8dfa;
+        --text-color: #e0e0e0;
+        --head-color: #1a1a2e;
+        --head-other-color: #0f0c37;
+        --hover-color: #5b7ce9;
+        --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        --card-color: rgba(26, 26, 46, 0.9);
+        --submenu-bg: #1a1a2e;
+        --head-text-color: #e0e0e0;
+        --grid-color: rgba(108, 141, 250, 0.1);
+      }
+
+      [data-theme="dark"] body {
+        background: linear-gradient(120deg, #1a1a2e 0%, #0f0c37 100%);
+      }
+
+      /* 使用Grid实现棋盘格背景 */
+      .navbar {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: var(--head-color);
+        box-shadow: var(--shadow);
+        z-index: 1000;
+        transition: var(--transition);
+        
+      }
+
+      .grid-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        /* grid-template-columns: repeat(auto-fit, minmax(var(--grid-size), 1fr)); */
+        grid-auto-rows: var(--grid-size);
+        z-index: -1;
+        transition: opacity 0.5s ease;
+        overflow: hidden;
+      }
+
+      .grid-background .grid-item:nth-child(odd) {
+        background-color: var(--head-other-color);
+      }
+
+      .grid-background .grid-item:nth-child(even) {
+        background-color: transparent;
+        transform: translateX(calc(var(--grid-size) / 2));
+      }
+
+      .scrolled {
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        height: 35px;
+      }
+
+      .scrolled .grid-background {
+        opacity: 0.2;
+      }
+
+      .scrolled .nav-container {
+        height: 35px;
+      }
+
+      .scrolled .header-logo a {
+        font-size: 1.5rem;
+        transform: translateY(-5px);
+      }
+
+      .scrolled .nav-menu {
+        height: 100%;
+        
+        margin-top: 0;
+        translate: 0;
+        padding: 0;
+        background-color: transparent;
+        border-radius: 0;
+      }
+      .scrolled .nav-menu .head-link {
+        color: #fff;
+        line-height: 100%;
+      }
+      .scrolled .nav-actions {
+        transform: translateY(-5px);
+      }
+
+      .scrolled .submenu{
+        background-color: var(--head-color);
+      }
+
+      .scrolled .submenu .submenu-link{
+        color: #fff;
+      }
+      .nav-container {
+        width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+        transition: var(--transition);
+        position: relative;
+      }
+      .header-logo {
+        width: 200px;
+        background-color: var(--head-other-color);
+      }
+      .header-logo a {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--text-color);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        transition: var(--transition);
+      }
+
+      .header-logo i {
+        margin-right: 10px;
+
+        color: var(--primary-color);
+      }
+
+      .nav-menu {
+        display: flex;
+        list-style: none;
+        border-radius: 25px;
+        background-color: var(--card-color);
+        translate: 150%;
+        transition: var(--transition);
+        backdrop-filter: blur(5px);
+      }
+
+      .nav-item {
+        margin: 0 15px;
+        position: relative;
+      }
+
+      .head-link {
+        color: var(--head-text-color);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 10px 0;
+        position: relative;
+        transition: var(--transition);
+        display: block;
+      }
+
+      .head-link:hover {
+        color: var(--primary-color);
+      }
+
+      .head-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--primary-color);
+        transition: var(--transition);
+      }
+
+      .head-link:hover::after {
+        width: 100%;
+      }
+
+      /* 二级菜单样式 */
+      .submenu {
+        position: absolute;
+        top: 120%;
+        left: 0;
+        width: 140px;
+        background-color: var(--submenu-bg);
+        border-radius: 6px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 10px 0;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: var(--transition);
+        z-index: 9999;
+        box-shadow: var(--shadow);
+      }
+
+      .nav-item:hover .submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .submenu-item {
+        list-style: none;
+      }
+
+      .submenu-link {
+        display: block;
+        padding: 10px 20px;
+        color: var(--head-text-color);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .submenu-link:hover {
+        background-color: rgba(74, 108, 247, 0.1);
+        color: var(--primary-color);
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        transition: var(--transition);
+      }
+
+      .theme-toggle {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+        margin-right: 20px;
+        color: var(--text-color);
+        transition: var(--transition);
+        padding: 5px;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .theme-toggle:hover {
+        color: var(--primary-color);
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 5px;
+      }
+
+      .hamburger span {
+        width: 25px;
+        height: 3px;
+        background-color: var(--text-color);
+        margin: 3px 0;
+        transition: var(--transition);
+        border-radius: 3px;
+      }
+
+      /* 内容区域 */
+      .content {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 20px;
+        background: var(--card-color);
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+      }
+
+      .content h1 {
+        color: var(--primary-color);
+        margin-bottom: 20px;
+      }
+
+      .content p {
+        line-height: 1.6;
+        margin-bottom: 15px;
+        color: var(--text-color);
+      }
+
+      @media screen and (max-width: 768px) {
+        .header-logo {
+            display: none;
+        }
+        .nav-menu {
+          position: fixed;
+          top: 70px;
+          left: -100%;
+          width: 100%;
+          height: calc(100vh - 70px);
+          background-color: var(--head-other-color);
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          padding-top: 50px;
+          transition: var(--transition);
+          translate: 0;
+          border-radius: 0;
+        }
+
+        .nav-menu.active {
+          left: 0;
+        }
+
+        .nav-item {
+          margin: 15px 0;
+        }
+
+        .hamburger {
+          display: flex;
+        }
+
+        .hamburger.active span:nth-child(1) {
+          transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+          opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+          transform: rotate(-45deg) translate(5px, -5px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar" id="navbar">
+        <div class="header-logo">
+          <a href="#">蘑菇种植园</a>
+        </div>
+
+        <!-- 使用Grid实现棋盘格背景 -->
+        <div class="grid-background" id="grid-background"></div>
+
+        <div class="nav-container">
+          <ul class="nav-menu">
+            <li class="nav-item">
+              <a href="#" class="head-link">首页</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="head-link">思考</a>
+              <ul class="submenu">
+                <li class="submenu-item">
+                  <a href="#" class="submenu-link">技术</a>
+                </li>
+                <li class="submenu-item">
+                  <a href="#" class="submenu-link">语言</a>
+                </li>
+                <li class="submenu-item">
+                  <a href="#" class="submenu-link">其他技能</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="head-link">漫步</a>
+              <ul class="submenu">
+                <li class="submenu-item">
+                  <a href="#" class="submenu-link">书</a>
+                </li>
+                <li class="submenu-item">
+                  <a href="#" class="submenu-link">影</a>
+                </li>
+                <li class="submenu-item">
+                  <a href="#" class="submenu-link">其他</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="head-link">创作</a>
+              <ul class="submenu">
+                <li class="submenu-item">
+                  <a href="#" class="submenu-link">原创</a>
+                </li>
+                <li class="submenu-item">
+                  <a href="#" class="submenu-link">同人</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="head-link">提问箱</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="head-link">归档</a>
+            </li>
+          </ul>
+
+          <div class="nav-actions">
+            <button class="theme-toggle" id="theme-toggle">🌙</button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <script>
+      // 动态创建网格元素
+      function createGrid() {
+        const grid = document.getElementById("grid-background");
+        const navbarWidth = document.getElementById("navbar").offsetWidth;
+        const navbarHeight = document.getElementById("navbar").offsetHeight;
+
+        // 计算需要的网格数量
+        const gridSize = parseInt(
+          getComputedStyle(document.documentElement).getPropertyValue(
+            "--grid-size"
+          )
+        );
+        const cols = Math.ceil(navbarWidth / gridSize) + 2;
+        const rows = Math.ceil(navbarHeight / gridSize) + 2;
+
+        // 清空现有网格
+        grid.innerHTML = "";
+        // 设置网格模板
+        grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+        // 创建网格项
+        for (let i = 0; i < cols * rows; i++) {
+          const gridItem = document.createElement("div");
+          gridItem.className = "grid-item";
+          grid.appendChild(gridItem);
+        }
+      }
+
+      // 初始化网格
+      window.addEventListener("load", createGrid);
+      window.addEventListener("resize", createGrid);
+
+      // 获取头部元素
+      const header = document.getElementById("navbar");
+
+      // 添加滚动防抖
+      let ticking = false;
+
+      // 监听滚动事件
+      window.addEventListener("scroll", function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () {
+            // 检查滚动位置
+            if (window.scrollY > 10) {
+              header.classList.add("scrolled");
+            } else {
+              header.classList.remove("scrolled");
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+
+      // 移动端菜单切换
+      const hamburger = document.getElementById("hamburger");
+      const navMenu = document.querySelector(".nav-menu");
+
+      hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navMenu.classList.toggle("active");
+      });
+
+      // 深色/浅色模式切换
+      const themeToggle = document.getElementById("theme-toggle");
+      const prefersDarkScheme = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      );
+
+      // 检查本地存储或系统偏好
+      const currentTheme =
+        localStorage.getItem("theme") ||
+        (prefersDarkScheme.matches ? "dark" : "light");
+
+      if (currentTheme === "dark") {
+        document.body.setAttribute("data-theme", "dark");
+        themeToggle.textContent = "☀️";
+      } else {
+        document.body.removeAttribute("data-theme");
+        themeToggle.textContent = "🌙";
+      }
+
+      themeToggle.addEventListener("click", () => {
+        let theme = "light";
+        if (!document.body.hasAttribute("data-theme")) {
+          document.body.setAttribute("data-theme", "dark");
+          themeToggle.textContent = "☀️";
+          theme = "dark";
+        } else {
+          document.body.removeAttribute("data-theme");
+          themeToggle.textContent = "🌙";
+          theme = "light";
+        }
+        localStorage.setItem("theme", theme);
+      });
+
+      // 点击菜单项后关闭移动菜单
+      document.querySelectorAll(".head-link").forEach((link) => {
+        link.addEventListener("click", () => {
+          hamburger.classList.remove("active");
+          navMenu.classList.remove("active");
+        });
+      });
+    </script>
+  </body>
+</html>
+</div>
+    <div class="container">
+      
+
+      <!-- 主内容区 -->
+      <main class="main-content"><!-- 侧边栏 -->
+<aside class="sidebar"><!-- 个人介绍模块 -->
+<div class="site-intro site">
+<img class="site-img" src="/img/logo.jpg" alt="My Avatar" width="100" height="100">
+
+<p class="site-name">柳箐</p>
+<p class="site-description">于是我们不再追问</p>
+
+<div>
+    <span></span>
+</div>
+</div>
+
+<!-- 搜索 -->
+<div class="site">
+  <input type="text" placeholder="搜索..." />
+</div>
+
+<div>
+<!-- 标签 -->
+<ul class="site">
+  
+  <li class="nav-item">
+    <a href="/categories/index.html" class="nav-link">categories</a>
+  </li>
+  
+</ul>
+</div>
+
+<div>
+<!-- 最近更新 -->
+<ul class="site">
+  <li class="nav-item"><a href="/" class="nav-link">首页</a></li>
+  
+  <li class="nav-item">
+    <a href="/categories/index.html" class="nav-link">categories</a>
+  </li>
+  
+</ul>
+</div></aside>
+<h1 class="page-title">最新文章</h1>
+
+<div class="post-list" id="postList">
+  
+  <article class="post-card">
+    
+
+    <div class="post-content">
+      <h2 class="post-title">
+        <a href="/2025/08/23/hexo%E7%9A%84%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/">hexo的基础使用</a>
+      </h2>
+
+      <div class="post-excerpt">
+         测试
+这是一条引用
+
+二级标题无序列表测试：
+
+哈哈
+嘿嘿
+吼吼
+
+三级标题四级标题... 
+      </div>
+    </div>
+  </article>
+
+  
+  <article class="post-card">
+    
+
+    <div class="post-content">
+      <h2 class="post-title">
+        <a href="/2025/08/22/hello-world/">Hello World</a>
+      </h2>
+
+      <div class="post-excerpt">
+         Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any pro... 
+      </div>
+    </div>
+  </article>
+
+  
+</div>
+
+<div class="loading" id="loading">
+  <div class="loader"></div>
+  <p>正在加载更多内容...</p>
+</div>
+
+<script>
+  // 无限滚动逻辑
+  document.addEventListener("DOMContentLoaded", function () {
+    const postList = document.getElementById("postList");
+    const loadingElement = document.getElementById("loading");
+    let nextPage = 2; // 从第二页开始
+    let isLoading = false;
+
+    // 加载更多文章
+    function loadMorePosts() {
+      if (isLoading) return;
+
+      isLoading = true;
+      loadingElement.style.display = "block";
+
+      // 使用Hexo的分页API获取下一页
+      fetch(`/page/${nextPage}/`)
+        .then((response) => response.text())
+        .then((html) => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+          const newPosts = doc.querySelectorAll(".post-card");
+
+          if (newPosts.length > 0) {
+            newPosts.forEach((post) => {
+              postList.appendChild(post);
+            });
+            nextPage++;
+          } else {
+            // 没有更多内容
+            loadingElement.innerHTML = "<p>已加载全部内容</p>";
+            observer.unobserve(loadingElement);
+          }
+        })
+        .catch((error) => {
+          console.error("加载更多文章时出错:", error);
+          loadingElement.innerHTML = "<p>加载失败，请稍后重试</p>";
+        })
+        .finally(() => {
+          isLoading = false;
+        });
+    }
+
+    // 无限滚动检测
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          loadMorePosts();
+        }
+      });
+    });
+
+    observer.observe(loadingElement);
+  });
+</script>
+</main>
+    </div>
+
+    <script>
+      // 响应式菜单切换（移动设备）
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuToggle = document.createElement("button");
+        menuToggle.innerHTML = "☰";
+        menuToggle.style.position = "fixed";
+        menuToggle.style.top = "1rem";
+        menuToggle.style.right = "1rem";
+        menuToggle.style.zIndex = "1000";
+        menuToggle.style.background = "#3a7bd5";
+        menuToggle.style.color = "white";
+        menuToggle.style.border = "none";
+        menuToggle.style.borderRadius = "4px";
+        menuToggle.style.padding = "0.5rem";
+        menuToggle.style.fontSize = "1.5rem";
+        menuToggle.style.cursor = "pointer";
+        menuToggle.style.display = "none";
+
+        menuToggle.addEventListener("click", function () {
+          document.querySelector(".sidebar").classList.toggle("active");
+        });
+
+        document.body.appendChild(menuToggle);
+
+        function checkWidth() {
+          if (window.innerWidth <= 900) {
+            menuToggle.style.display = "block";
+            document.querySelector(".sidebar").classList.remove("active");
+          } else {
+            menuToggle.style.display = "none";
+            document.querySelector(".sidebar").classList.add("active");
+          }
+        }
+
+        window.addEventListener("resize", checkWidth);
+        checkWidth();
+      });
+    </script>
+  </body>
+</html>

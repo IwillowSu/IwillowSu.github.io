@@ -762,49 +762,546 @@
 </html>
 </div>
     <div class="container">
-      <!-- 侧边栏 -->
-      <aside class="sidebar"><!-- 个人介绍模块 -->
-<div class="site-intro site">
-<img class="site-img" src="/img/logo.jpg" alt="My Avatar" width="100" height="100">
-
-<p class="site-name">柳箐</p>
-<p class="site-description">于是我们不再追问</p>
-
-<div>
-    <span></span>
-</div>
-</div>
-
-<!-- 搜索 -->
-<div class="site">
-  <input type="text" placeholder="搜索..." />
-</div>
-
-<div>
-<!-- 标签 -->
-<ul class="site">
-  
-  <li class="nav-item">
-    <a href="/categories/index.html" class="nav-link">categories</a>
-  </li>
-  
-</ul>
-</div>
-
-<div>
-<!-- 最近更新 -->
-<ul class="site">
-  <li class="nav-item"><a href="/" class="nav-link">首页</a></li>
-  
-  <li class="nav-item">
-    <a href="/categories/index.html" class="nav-link">categories</a>
-  </li>
-  
-</ul>
-</div></aside>
+      
 
       <!-- 主内容区 -->
-      <main class="main-content"></main>
+      <main class="main-content"><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分类层级结构 | Hexo博客</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(120deg, #2c3e50, #3498db);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .description {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .categories-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .parent-category {
+            border-left: 5px solid #3498db;
+        }
+        
+        .child-category {
+            border-left: 5px solid #2ecc71;
+            margin-left: 30px;
+            position: relative;
+        }
+        
+        .child-category::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            width: 20px;
+            height: 2px;
+            background: #95a5a6;
+        }
+        
+        .category-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .parent-category .category-header {
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            color: white;
+        }
+        
+        .child-category .category-header {
+            background: #f8f9fa;
+        }
+        
+        .category-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .category-name i {
+            margin-right: 10px;
+        }
+        
+        .parent-category .category-name i {
+            color: #ffce54;
+        }
+        
+        .child-category .category-name i {
+            color: #2ecc71;
+        }
+        
+        .post-count {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .parent-category .post-count {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .child-category .post-count {
+            background: #e4f1fe;
+            color: #3498db;
+        }
+        
+        .posts-list {
+            padding: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .post-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .post-item:last-child {
+            border-bottom: none;
+        }
+        
+        .post-item a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: color 0.2s ease;
+        }
+        
+        .post-item a:hover {
+            color: #e74c3c;
+        }
+        
+        .post-item a i {
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+        
+        .post-date {
+            font-size: 0.85rem;
+            color: #95a5a6;
+            margin-top: 5px;
+            margin-left: 25px;
+        }
+        
+        .empty-category {
+            padding: 20px;
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        .children-container {
+            margin-top: 15px;
+            padding-left: 20px;
+            border-left: 2px dashed #bdc3c7;
+        }
+        
+        .view-all {
+            display: block;
+            text-align: center;
+            padding: 12px;
+            background: #f8f9fa;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            border-radius: 0 0 12px 12px;
+        }
+        
+        .view-all:hover {
+            background: #e4f1fe;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .config-steps {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .config-steps h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .step {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .step-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #3498db;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 0.9rem;
+        }
+        
+        code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .categories-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .child-category {
+                margin-left: 15px;
+            }
+            
+            .child-category::before {
+                left: -15px;
+                width: 10px;
+            }
+        }
+        
+        /* 滚动条样式 */
+        .posts-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .posts-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .posts-list::-webkit-scrollbar-thumb {
+            background: #b8b8b8;
+            border-radius: 10px;
+        }
+        
+        .posts-list::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-sitemap"></i> 分类层级结构</h1>
+            <p class="description">清晰区分父分类与子分类，每个分类都有独立的页面和文章列表</p>
+        </header>
+        
+        <div class="categories-container">
+            <!-- 父分类1 -->
+            <div class="category-card parent-category">
+                <div class="category-header">
+                    <div class="category-name"><i class="fas fa-folder-open"></i> Web前端</div>
+                    <div class="post-count">12 篇文章</div>
+                </div>
+                <div class="posts-list">
+                    <div class="post-item">
+                        <a href="#"><i class="fas fa-file-alt"></i> JavaScript高级程序设计笔记</a>
+                        <div class="post-date">2023-10-15</div>
+                    </div>
+                    <div class="post-item">
+                        <a href="#"><i class="fas fa-file-alt"></i> CSS Grid布局完全指南</a>
+                        <div class="post-date">2023-09-22</div>
+                    </div>
+                    <div class="post-item">
+                        <a href="#"><i class="fas fa-file-alt"></i> 前端性能优化策略</a>
+                        <div class="post-date">2023-06-12</div>
+                    </div>
+                </div>
+                <a href="#" class="view-all">查看所有Web前端文章</a>
+                
+                <!-- 子分类容器 -->
+                <div class="children-container">
+                    <!-- 子分类1 -->
+                    <div class="category-card child-category">
+                        <div class="category-header">
+                            <div class="category-name"><i class="fas fa-folder"></i> Vue.js</div>
+                            <div class="post-count">5 篇文章</div>
+                        </div>
+                        <div class="posts-list">
+                            <div class="post-item">
+                                <a href="#"><i class="fas fa-file-alt"></i> Vue3组合式API实践</a>
+                                <div class="post-date">2023-08-17</div>
+                            </div>
+                            <div class="post-item">
+                                <a href="#"><i class="fas fa-file-alt"></i> Vuex状态管理指南</a>
+                                <div class="post-date">2023-07-05</div>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all">查看所有Vue.js文章</a>
+                    </div>
+                    
+                    <!-- 子分类2 -->
+                    <div class="category-card child-category">
+                        <div class="category-header">
+                            <div class="category-name"><i class="fas fa-folder"></i> React</div>
+                            <div class="post-count">4 篇文章</div>
+                        </div>
+                        <div class="posts-list">
+                            <div class="post-item">
+                                <a href="#"><i class="fas fa-file-alt"></i> React Hooks深度解析</a>
+                                <div class="post-date">2023-07-05</div>
+                            </div>
+                            <div class="post-item">
+                                <a href="#"><i class="fas fa-file-alt"></i> React Router使用指南</a>
+                                <div class="post-date">2023-05-18</div>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all">查看所有React文章</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 父分类2 -->
+            <div class="category-card parent-category">
+                <div class="category-header">
+                    <div class="category-name"><i class="fas fa-folder-open"></i> 后端开发</div>
+                    <div class="post-count">8 篇文章</div>
+                </div>
+                <div class="posts-list">
+                    <div class="post-item">
+                        <a href="#"><i class="fas fa-file-alt"></i> RESTful API设计最佳实践</a>
+                        <div class="post-date">2023-08-24</div>
+                    </div>
+                    <div class="post-item">
+                        <a href="#"><i class="fas fa-file-alt"></i> 数据库索引原理与优化</a>
+                        <div class="post-date">2023-07-30</div>
+                    </div>
+                </div>
+                <a href="#" class="view-all">查看所有后端开发文章</a>
+                
+                <!-- 子分类容器 -->
+                <div class="children-container">
+                    <!-- 子分类1 -->
+                    <div class="category-card child-category">
+                        <div class="category-header">
+                            <div class="category-name"><i class="fas fa-folder"></i> Node.js</div>
+                            <div class="post-count">4 篇文章</div>
+                        </div>
+                        <div class="posts-list">
+                            <div class="post-item">
+                                <a href="#"><i class="fas fa-file-alt"></i> Node.js异步编程模型</a>
+                                <div class="post-date">2023-10-08</div>
+                            </div>
+                            <div class="post-item">
+                                <a href="#"><i class="fas fa-file-alt"></i> Express框架中间件机制</a>
+                                <div class="post-date">2023-09-15</div>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all">查看所有Node.js文章</a>
+                    </div>
+                    
+                    <!-- 子分类2 -->
+                    <div class="category-card child-category">
+                        <div class="category-header">
+                            <div class="category-name"><i class="fas fa-folder"></i> Python</div>
+                            <div class="post-count">3 篇文章</div>
+                        </div>
+                        <div class="posts-list">
+                            <div class="post-item">
+                                <a href="#"><i class="fas fa-file-alt"></i> Python Django框架入门</a>
+                                <div class="post-date">2023-09-15</div>
+                            </div>
+                            <div class="post-item">
+                                <a href="#"><i class="fas fa-file-alt"></i> Flask Web开发实战</a>
+                                <div class="post-date">2023-08-10</div>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all">查看所有Python文章</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 父分类3 -->
+            <div class="category-card parent-category">
+                <div class="category-header">
+                    <div class="category-name"><i class="fas fa-folder-open"></i> DevOps</div>
+                    <div class="post-count">6 篇文章</div>
+                </div>
+                <div class="posts-list">
+                    <div class="post-item">
+                        <a href="#"><i class="fas fa-file-alt"></i> CI/CD流水线设计</a>
+                        <div class="post-date">2023-08-29</div>
+                    </div>
+                    <div class="post-item">
+                        <a href="#"><i class="fas fa-file-alt"></i> 微服务架构实践</a>
+                        <div class="post-date">2023-07-12</div>
+                    </div>
+                </div>
+                <a href="#" class="view-all">查看所有DevOps文章</a>
+                
+                <!-- 子分类容器 -->
+                <div class="children-container">
+                    <!-- 子分类1 -->
+                    <div class="category-card child-category">
+                        <div class="category-header">
+                            <div class="category-name"><i class="fas fa-folder"></i> Docker</div>
+                            <div class="post-count">3 篇文章</div>
+                        </div>
+                        <div class="posts-list">
+                            <div class="post-item">
+                                <a href="#"><i class="fas fa-file-alt"></i> Docker容器化部署实践</a>
+                                <div class="post-date">2023-10-05</div>
+                            </div>
+                            <div class="post-item">
+                                <a href="#"><i class="fas fa-file-alt"></i> Docker网络模式详解</a>
+                                <div class="post-date">2023-09-18</div>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all">查看所有Docker文章</a>
+                    </div>
+                    
+                    <!-- 子分类2 -->
+                    <div class="category-card child-category">
+                        <div class="category-header">
+                            <div class="category-name"><i class="fas fa-folder"></i> Kubernetes</div>
+                            <div class="post-count">3 篇文章</div>
+                        </div>
+                        <div class="posts-list">
+                            <div class="post-item">
+                                <a href="#"><i class="fas fa-file-alt"></i> Kubernetes集群搭建指南</a>
+                                <div class="post-date">2023-09-18</div>
+                            </div>
+                            <div class="post-item">
+                                <a href="#"><i class="fas fa-file-alt"></i> K8s服务发现与负载均衡</a>
+                                <div class="post-date">2023-08-22</div>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all">查看所有Kubernetes文章</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+  
+  
+        
+        <footer>
+            <p>© 2023 Hexo博客 | 分类层级结构解决方案</p>
+        </footer>
+    </div>
+
+    <script>
+        // 简单的动画效果：页面加载时卡片依次浮现
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.category-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = 1;
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+        
+        // 初始样式设置
+        const style = document.createElement('style');
+        style.textContent = `
+            .category-card {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.5s ease, transform 0.5s ease;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html></main>
     </div>
 
     <script>
